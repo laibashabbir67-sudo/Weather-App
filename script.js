@@ -1,17 +1,29 @@
 function checkWeather() {
+
     let cityName = document.getElementById("city").value;
     let myApiKey = "9212fe3ab87a4c9abaf45210241802";
+
     let url = "https://api.weatherapi.com/v1/current.json?key=" + myApiKey + "&q=" + cityName;
 
     fetch(url)
-        .then(function (response) {
+        .then(function(response) {
             return response.json();
         })
-        .then(function (data) {
+        .then(function(data) {
+
+            if (data.error) {
+                alert(data.error.message);
+                return;
+            }
+
             document.getElementById("showCity").innerHTML = data.location.name;
             document.getElementById("showTemp").innerHTML = data.current.temp_c + "°C";
             document.getElementById("showStatus").innerHTML = data.current.condition.text;
 
+        })
+        .catch(function(error) {
+            console.log(error);
+            alert("Unable to fetch weather data.");
         });
 
 }
